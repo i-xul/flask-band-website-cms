@@ -109,16 +109,28 @@ Past shows can be determined automatically based on date.
 
 ### Release
 
-Stores demos, EPs, albums, singles, compilations, tracklists, and related
+Stores demos, EPs, albums, singles, compilations, and related release
 metadata.
 
-### Media
+### ReleaseTrack
 
-Stores photo metadata and YouTube video information.
+Stores tracklist entries associated with releases.
+
+### MediaPhoto
+
+Stores photo metadata for uploaded images and externally hosted photos.
+
+### MediaVideo
+
+Stores metadata for externally hosted video content such as YouTube videos.
+
+### BandContent
+
+Stores shared band information, including short and long biography content.
 
 ### BandMember
 
-Stores current and former band-member information.
+Stores current and former band-member information and profile data.
 
 ### BandMemberActivity
 
@@ -126,20 +138,19 @@ Stores structured role-specific activity periods for band members.
 
 Multiple activity periods can be associated with the same member and role.
 
-### BandBiography
+### ContactInfo
 
-Stores short and long band descriptions and historical information.
+Stores shared contact and social information, including:
 
-### SiteSettings
-
-Stores shared configuration such as:
-
-- Contact email
+- General contact email
 - Booking email
 - Press email
 - Social links
-- Default site metadata
-- Featured homepage content
+
+### MerchItem
+
+Stores merchandise information, including item details, pricing, availability,
+and stock quantity.
 
 ## Media Handling
 
