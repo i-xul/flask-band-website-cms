@@ -1,0 +1,115 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Shows — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <div class="section-heading-row">
+        <div>
+            <h1>Shows</h1>
+            <p>Manage upcoming and past shows.</p>
+        </div>
+
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.add_show') }}"
+        >
+            + Add show
+        </a>
+    </div>
+</section>
+
+<section class="admin-list">
+
+    {% if shows %}
+
+        {% for show in shows %}
+            <article
+                class="admin-list-item{% if show.poster_image %} show-admin-item{% endif %}"
+            >
+
+                {% if show.poster_image %}
+                    <div class="show-admin-thumbnail">
+                        <img
+                            src="{{ url_for('static', filename=show.poster_image) }}"
+                            alt="Poster for {{ show.venue }}"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endif %}
+
+                <div class="admin-list-content">
+                    <div class="admin-list-meta">
+
+                        {% if show.is_cancelled %}
+                            <span class="status-badge">
+                                Cancelled
+                            </span>
+                        {% elif show.is_published %}
+                            <span class="status-badge status-published">
+                                Published
+                            </span>
+                        {% else %}
+                            <span class="status-badge status-draft">
+                                Draft
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+                    <h2>
+                        {{ show.city }}, {{ show.country }}
+                    </h2>
+
+                    <p>
+                        {{ show.show_date.strftime("%d.%m.%Y") }}
+                        — {{ show.venue }}
+                    </p>
+
+                    {% if show.other_bands %}
+                        <small>
+                            With: {{ show.other_bands }}
+                        </small>
+                    {% endif %}
+                </div>
+
+                <div class="admin-list-actions">
+                    <a
+                        href="{{ url_for('admin.edit_show', show_id=show.id) }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{ url_for('admin.delete_show', show_id=show.id) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="danger-link"
+                            data-confirm="Delete this show?"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+        {% endfor %}
+
+    {% else %}
+        <p>No shows yet.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

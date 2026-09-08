@@ -1,0 +1,136 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage merchandise information.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.name.label }}
+        {{ form.name() }}
+
+        {% for error in form.name.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.description.label }}
+        {{ form.description(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.price_cents.label }}
+        {{ form.price_cents() }}
+
+        {% for error in form.price_cents.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+        <small>
+            Example: 1500 = €15.00
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.image_file.label }}
+
+        {{ form.image_file(
+            accept="image/jpeg,image/png,image/webp"
+        ) }}
+
+        {% for error in form.image_file.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            JPEG, PNG or WebP. Images are automatically resized and converted to WebP.
+        </small>
+
+        {% if item and item.image_path %}
+            <div class="merch-current-image">
+                <img
+                    src="{{ url_for('static', filename=item.image_path) }}"
+                    alt="{{ item.name }}"
+                >
+            </div>
+
+            <small>
+                Leave empty to keep the current image.
+            </small>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        {{ form.external_url.label }}
+        {{ form.external_url() }}
+
+        <small>
+            Bandcamp or another purchase page.
+        </small>
+
+        {% for error in form.external_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.availability.label }}
+        {{ form.availability() }}
+
+        {% for error in form.availability.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            Example: In stock, Limited, Sold out, Available at shows
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.stock_quantity.label }}
+        {{ form.stock_quantity() }}
+
+        {% for error in form.stock_quantity.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+        <small>
+            Leave empty if stock is not tracked numerically.
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.merch_items') }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

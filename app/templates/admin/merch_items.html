@@ -1,0 +1,124 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Merch — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <div class="section-heading-row">
+        <div>
+            <h1>Merch</h1>
+            <p>Manage merchandise catalog.</p>
+        </div>
+
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.add_merch_item') }}"
+        >
+            + Add merch item
+        </a>
+    </div>
+</section>
+
+<section class="admin-list">
+
+    {% if items %}
+        {% for item in items %}
+            <article
+                class="admin-list-item{% if item.image_path %} merch-admin-item{% endif %}"
+            >
+
+                {% if item.image_path %}
+                    <div class="merch-admin-thumbnail">
+                        <img
+                            src="{{ url_for('static', filename=item.image_path) }}"
+                            alt="{{ item.name }}"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endif %}
+
+                <div class="admin-list-content">
+
+                    <div class="admin-list-meta">
+                        {% if item.is_published %}
+                            <span class="status-badge status-published">
+                                Published
+                            </span>
+                        {% else %}
+                            <span class="status-badge">
+                                Draft
+                            </span>
+                        {% endif %}
+
+                        {% if item.availability %}
+                            <span class="status-badge">
+                                {{ item.availability }}
+                            </span>
+                        {% endif %}
+
+                        {% if item.stock_quantity is not none %}
+                            <span class="status-badge">
+                                Stock: {{ item.stock_quantity }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <h2>{{ item.name }}</h2>
+
+                    {% if item.price_cents is not none %}
+                        <p>
+                            €{{ "%.2f"|format(item.price_cents / 100) }}
+                        </p>
+                    {% endif %}
+
+                    {% if item.description %}
+                        <p>{{ item.description }}</p>
+                    {% endif %}
+
+                </div>
+
+                <div class="admin-list-actions">
+                    <a
+                        href="{{ url_for(
+                            'admin.edit_merch_item',
+                            item_id=item.id
+                        ) }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'admin.delete_merch_item',
+                            item_id=item.id
+                        ) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="danger-link"
+                            data-confirm="Delete this merch item?"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>No merch items added yet.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

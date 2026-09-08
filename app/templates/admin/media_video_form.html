@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage video information.</p>
+</section>
+
+<form method="post" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.youtube_url.label }}
+        {{ form.youtube_url() }}
+
+        {% for error in form.youtube_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.description.label }}
+        {{ form.description(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.year.label }}
+        {{ form.year() }}
+
+        {% for error in form.year.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.media_videos') }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

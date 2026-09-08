@@ -1,0 +1,173 @@
+{# media.html #}
+
+{% extends "base.html" %}
+
+{% block title %}
+Media — Demo Band
+{% endblock %}
+
+{% block meta_description %}
+Demo Band live videos and photo gallery.
+{% endblock %}
+
+{% block content %}
+
+<section class="content-section media-page">
+
+    <h1 class="section-title">
+        Media
+    </h1>
+
+    <section class="media-section">
+        <h2>Videos</h2>
+
+        {% if video_items %}
+            <div class="video-grid">
+
+                {% for item in video_items %}
+                    <article class="video-card">
+
+                        <button
+                            class="video-thumbnail"
+                            type="button"
+                            data-youtube-id="{{ item.youtube_id }}"
+                            aria-label="Play {{ item.video.title }}"
+                        >
+                            <img
+                                src="https://i.ytimg.com/vi/{{ item.youtube_id }}/hqdefault.jpg"
+                                alt=""
+                                loading="lazy"
+                            >
+
+                            <span class="video-play" aria-hidden="true">
+                                ▶
+                            </span>
+                        </button>
+
+                        <div class="video-info">
+
+                            {% if item.video.year %}
+                                <p class="video-year">
+                                    {{ item.video.year }}
+                                </p>
+                            {% endif %}
+
+                            <h3>
+                                {{ item.video.title }}
+                            </h3>
+
+                            {% if item.video.description %}
+                                <p class="video-description">
+                                    {{ item.video.description }}
+                                </p>
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <p class="empty-state">
+                No videos available.
+            </p>
+        {% endif %}
+
+        <section class="media-section photo-section">
+    <h2>Photos</h2>
+
+    {% if photos %}
+        <div class="photo-grid">
+
+            {% for photo in photos %}
+
+                {% if photo.image_path %}
+                    {% set photo_src = url_for(
+                        'static',
+                        filename=photo.image_path
+                    ) %}
+                {% else %}
+                    {% set photo_src = photo.image_url %}
+                {% endif %}
+
+                <article class="photo-card">
+
+                    <button
+                        class="photo-thumbnail"
+                        type="button"
+                        data-photo-src="{{ photo_src }}"
+                        data-photo-title="{{ photo.title or '' }}"
+                        data-photo-credit="{{ photo.photographer or '' }}"
+                        aria-label="Open photo{% if photo.title %}: {{ photo.title }}{% endif %}"
+                    >
+                        <img
+                            src="{{ photo_src }}"
+                            alt="{{ photo.title or photo.event_name or 'Demo Band photo' }}"
+                            loading="lazy"
+                        >
+                    </button>
+
+                    <div class="photo-info">
+
+                        {% if photo.title %}
+                            <h3>{{ photo.title }}</h3>
+                        {% endif %}
+
+                        {% if photo.event_name or photo.event_date %}
+                            <p class="photo-event">
+                                {% if photo.event_name %}
+                                    {{ photo.event_name }}
+                                {% endif %}
+
+                                {% if photo.event_name and photo.event_date %}
+                                    ·
+                                {% endif %}
+
+                                {% if photo.event_date %}
+                                    {{ photo.event_date.strftime('%d.%m.%Y') }}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+
+                        {% if photo.description %}
+                            <p class="photo-description">
+                                {{ photo.description }}
+                            </p>
+                        {% endif %}
+
+                        {% if photo.photographer %}
+                            <p class="photo-credit">
+                                Photo:
+                                {% if photo.source_url %}
+                                    <a
+                                        href="{{ photo.source_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {{ photo.photographer }}
+                                    </a>
+                                {% else %}
+                                    {{ photo.photographer }}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p class="empty-state">
+            No photos available.
+        </p>
+    {% endif %}
+</section>
+    </section>
+
+</section>
+
+{% endblock %}

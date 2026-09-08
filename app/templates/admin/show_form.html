@@ -1,0 +1,164 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage show information.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.show_date.label }}
+        {{ form.show_date() }}
+
+        {% for error in form.show_date.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.show_time.label }}
+        {{ form.show_time() }}
+
+        {% for error in form.show_time.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.venue.label }}
+        {{ form.venue() }}
+
+        {% for error in form.venue.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.city.label }}
+        {{ form.city() }}
+
+        {% for error in form.city.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.country.label }}
+        {{ form.country() }}
+
+        {% for error in form.country.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.other_bands.label }}
+        {{ form.other_bands(rows=4) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.poster_image.label }}
+        {{ form.poster_image() }}
+
+        <small>
+            Example: images/live/poster.jpg
+        </small>
+
+        {% for error in form.poster_image.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.poster_file.label }}
+
+        {{ form.poster_file(
+            accept="image/jpeg,image/png,image/webp"
+        ) }}
+
+        {% for error in form.poster_file.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            JPEG, PNG or WebP. Images are automatically resized and converted to WebP.
+        </small>
+
+        {% if show and show.poster_image %}
+            <div class="show-current-poster">
+                <img
+                    src="{{ url_for('static', filename=show.poster_image) }}"
+                    alt="Poster for {{ show.venue }}"
+                >
+            </div>
+
+            <small>
+                Leave empty to keep the current poster image.
+            </small>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        {{ form.event_url.label }}
+        {{ form.event_url() }}
+
+        <small>
+            Use a complete URL including https://
+        </small>
+
+        {% for error in form.event_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.ticket_url.label }}
+        {{ form.ticket_url() }}
+
+        <small>
+            Use a complete URL including https://
+        </small>
+
+        {% for error in form.ticket_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.notes.label }}
+        {{ form.notes(rows=5) }}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_cancelled() }}
+        {{ form.is_cancelled.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.shows_list') }}"
+        >
+            Cancel
+        </a>
+</div>
+</form>
+
+{% endblock %}

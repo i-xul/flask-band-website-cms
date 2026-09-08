@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Server Error — Demo Band
+{% endblock %}
+
+{% block content %}
+
+<section class="error-page">
+    <p class="error-code">500</p>
+
+    <h1>Server Error</h1>
+
+    <p>
+        Something went wrong while loading the page.
+    </p>
+
+    <a
+        class="error-home-link"
+        href="{{ url_for('public.home') }}"
+    >
+        Back to home
+    </a>
+</section>
+
+{% endblock %}

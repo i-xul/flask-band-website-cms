@@ -1,0 +1,248 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage release information.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.release_type.label }}
+        {{ form.release_type() }}
+
+        {% for error in form.release_type.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.release_year.label }}
+        {{ form.release_year() }}
+
+        {% for error in form.release_year.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.description.label }}
+        {{ form.description(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.cover_image.label }}
+        {{ form.cover_image() }}
+
+        <small>
+            Optional existing static cover image path.
+        </small>
+
+        {% for error in form.cover_image.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.cover_image_file.label }}
+
+        {{ form.cover_image_file(
+            accept="image/jpeg,image/png,image/webp"
+        ) }}
+
+        {% for error in form.cover_image_file.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            JPEG, PNG or WebP. Images are automatically resized and converted to WebP.
+        </small>
+
+        {% if release and release.cover_image %}
+            <div class="release-current-cover">
+                <img
+                    src="{{ url_for('static', filename=release.cover_image) }}"
+                    alt="{{ release.title }}"
+                >
+            </div>
+
+            <small>
+                Leave empty to keep the current cover image.
+            </small>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        {{ form.artwork_credit.label }}
+        {{ form.artwork_credit() }}
+
+        {% for error in form.artwork_credit.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.label.label }}
+        {{ form.label() }}
+
+        {% for error in form.label.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.catalog_number.label }}
+        {{ form.catalog_number() }}
+
+        {% for error in form.catalog_number.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.format.label }}
+        {{ form.format() }}
+
+        {% for error in form.format.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.release_date.label }}
+        {{ form.release_date() }}
+
+        {% for error in form.release_date.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.lineup.label }}
+        {{ form.lineup(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.recording_info.label }}
+        {{ form.recording_info(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.engineering_credit.label }}
+        {{ form.engineering_credit() }}
+
+        {% for error in form.engineering_credit.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.mixing_mastering_credit.label }}
+        {{ form.mixing_mastering_credit() }}
+
+        {% for error in form.mixing_mastering_credit.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.additional_notes.label }}
+        {{ form.additional_notes(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.bandcamp_url.label }}
+        {{ form.bandcamp_url() }}
+
+        {% for error in form.bandcamp_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.spotify_url.label }}
+        {{ form.spotify_url() }}
+
+        {% for error in form.spotify_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.youtube_url.label }}
+        {{ form.youtube_url() }}
+
+        {% for error in form.youtube_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.other_url_label.label }}
+        {{ form.other_url_label() }}
+
+        <small>
+            For example: Metal Archives
+        </small>
+
+        {% for error in form.other_url_label.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.other_url.label }}
+        {{ form.other_url() }}
+
+        {% for error in form.other_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        <small>
+            Lower numbers appear first.
+        </small>
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.releases_list') }}"
+        >
+            Cancel
+        </a>
+</div>
+</form>
+
+{% endblock %}

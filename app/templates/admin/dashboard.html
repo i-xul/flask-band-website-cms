@@ -1,0 +1,136 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard — Demo Band Admin{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Manage Demo Band website content.</p>
+</section>
+
+<section class="quick-actions">
+    <h2>Quick actions</h2>
+
+    <div class="action-grid">
+        <a
+    class="admin-action"
+    href="{{ url_for('admin.add_news') }}"
+>
+    + Add news
+</a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.add_show') }}"
+        >
+            + Add show
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.add_release') }}"
+        >
+            + Add release
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.band_content') }}"
+        >
+            Edit band
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.add_media_video') }}"
+        >
+            + Add video
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.add_media_photo') }}"
+        >
+            + Add photo
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.contact_info') }}"
+        >
+            Edit contact
+        </a>
+
+        <a
+            class="admin-action"
+            href="{{ url_for('admin.add_merch_item') }}"
+        >
+            + Add merch
+        </a>
+    </div>
+</section>
+
+<section>
+    <h2>Content</h2>
+
+    <div class="dashboard-grid">
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.news_list') }}"
+        >
+            <span>News</span>
+            <strong>{{ news_count }}</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.shows_list') }}"
+        >
+            <span>Shows</span>
+            <strong>{{ show_count }}</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.releases_list') }}"
+        >
+            <span>Releases</span>
+            <strong>{{ release_count }}</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.band_content') }}"
+        >
+            <span>Band</span>
+            <strong>→</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.media_videos') }}"
+        >
+            <span>Media</span>
+            <strong>→</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.contact_info') }}"
+        >
+            <span>Contact</span>
+            <strong>→</strong>
+        </a>
+
+        <a
+            class="dashboard-card dashboard-card-link"
+            href="{{ url_for('admin.merch_items') }}"
+        >
+            <span>Merch</span>
+            <strong>→</strong>
+        </a>
+    </div>
+</section>
+
+{% endblock %}

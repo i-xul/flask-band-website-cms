@@ -1,0 +1,76 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — {{ member.name }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <div class="section-heading-row">
+        <div>
+            <h1>{{ page_title }}</h1>
+            <p>{{ member.name }}</p>
+        </div>
+    </div>
+</section>
+
+<form method="post" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.role.label }}
+        {{ form.role() }}
+
+        {% for error in form.role.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.start_year.label }}
+        {{ form.start_year() }}
+
+        {% for error in form.start_year.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.end_year.label }}
+        {{ form.end_year() }}
+
+        <small>
+            Leave empty if the activity period is still ongoing.
+        </small>
+
+        {% for error in form.end_year.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for(
+                'admin.band_member_activity',
+                member_id=member.id
+            ) }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

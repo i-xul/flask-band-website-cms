@@ -1,0 +1,100 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title|default("Add News") }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title|default("Add News") }}</h1>
+    <p>Create a new website update.</p>
+</section>
+
+<form
+    method="post"
+    class="admin-form"
+>
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.short_text.label }}
+        {{ form.short_text(rows=4) }}
+
+        <small>
+            Used on the homepage and news ticker.
+        </small>
+
+        {% for error in form.short_text.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.body.label }}
+        {{ form.body(rows=8) }}
+
+        <small>
+            Optional longer text.
+        </small>
+
+        {% for error in form.body.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.link_url.label }}
+        {{ form.link_url() }}
+
+        <small>
+            Use a complete URL, for example:
+            https://www.example.com
+        </small>
+
+        {% for error in form.link_url.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_featured() }}
+        {{ form.is_featured.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.news_list') }}"
+        >
+            Cancel
+        </a>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login — Demo Band Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
+    >
+</head>
+
+<body>
+    <main class="admin-container">
+        <section class="dashboard-header">
+            <h1>Demo Band Admin</h1>
+            <p>Sign in to manage website content.</p>
+        </section>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <div>
+                {{ form.username.label }}
+                {{ form.username() }}
+            </div>
+
+            <div>
+                {{ form.password.label }}
+                {{ form.password() }}
+            </div>
+
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{# band.html #}
+
+{% extends "base.html" %}
+
+{% block title %}
+Band — Demo Band
+{% endblock %}
+
+{% block meta_description %}
+Demo Band band history, current members and former members.
+{% endblock %}
+
+{% block content %}
+...
+
+<section class="content-section band-page">
+
+    <h1 class="section-title">
+        Band
+    </h1>
+
+    {% if content and content.intro %}
+        <div class="band-intro">
+            <p class="band-lead">
+                {{ content.intro }}
+            </p>
+        </div>
+    {% endif %}
+
+    {% if members %}
+        <section class="band-section">
+            <h2>Members</h2>
+
+            <div class="member-grid">
+                {% for member in members %}
+                    <article class="member-card">
+
+                        {% if member.image %}
+                            <div class="member-image">
+                                {% if member.slug %}
+                                    <a
+                                        href="{{ url_for(
+                                            'public.band_member_profile',
+                                            slug=member.slug
+                                        ) }}"
+                                        aria-label="View {{ member.name }} profile"
+                                    >
+                                        <img
+                                            src="{{ url_for(
+                                                'static',
+                                                filename=member.image
+                                            ) }}"
+                                            alt="{{ member.name }}"
+                                        >
+                                    </a>
+                                {% else %}
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename=member.image
+                                        ) }}"
+                                        alt="{{ member.name }}"
+                                    >
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <div class="member-info">
+                            <h3>
+                                {% if member.slug %}
+                                    <a
+                                        href="{{ url_for(
+                                            'public.band_member_profile',
+                                            slug=member.slug
+                                        ) }}"
+                                    >
+                                        {{ member.name }}
+                                    </a>
+                                {% else %}
+                                    {{ member.name }}
+                                {% endif %}
+                            </h3>
+
+                            <p>{{ member.activity_display }}</p>
+
+                            {% if member.slug %}
+                                <a
+                                    class="member-profile-link"
+                                    href="{{ url_for(
+                                        'public.band_member_profile',
+                                        slug=member.slug
+                                    ) }}"
+                                >
+                                    View profile →
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if content and content.history %}
+        <section class="band-section">
+            <h2>History</h2>
+
+            <div class="band-history">
+                {% for paragraph in content.history.split('\n\n') %}
+                    {% if paragraph.strip() %}
+                        <p>{{ paragraph }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if former_members %}
+        <section class="band-section former-members-section">
+            <h2>Former Members</h2>
+
+            <div class="former-members-list">
+                {% for member in former_members %}
+                    <div class="former-member">
+                        <strong>{{ member.name }}</strong>
+                        <span>{{ member.activity_display }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+</section>
+
+{% endblock %}

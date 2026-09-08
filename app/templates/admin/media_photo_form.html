@@ -1,0 +1,148 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage photo information.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.image_path.label }}
+        {{ form.image_path() }}
+
+        <small>
+            Example: images/live/photo.jpg
+        </small>
+
+        {% for error in form.image_path.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.image_file.label }}
+
+        {{ form.image_file(
+            accept="image/jpeg,image/png,image/webp"
+        ) }}
+
+        {% for error in form.image_file.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            JPEG, PNG or WebP. Images are automatically resized and converted to WebP.
+        </small>
+
+        {% if photo and photo.image_path %}
+            <div class="media-photo-current-image">
+                <img
+                    src="{{ url_for('static', filename=photo.image_path) }}"
+                    alt="{{ photo.title or photo.event_name or 'Media photo' }}"
+                >
+            </div>
+
+            <small>
+                Leave empty to keep the current local image.
+            </small>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        {{ form.image_url.label }}
+        {{ form.image_url() }}
+
+        <small>
+            Use this instead of a local path for externally hosted images.
+        </small>
+
+        {% for error in form.image_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.photographer.label }}
+        {{ form.photographer() }}
+
+        {% for error in form.photographer.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.source_url.label }}
+        {{ form.source_url() }}
+
+        {% for error in form.source_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.event_name.label }}
+        {{ form.event_name() }}
+
+        {% for error in form.event_name.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.event_date.label }}
+        {{ form.event_date() }}
+
+        {% for error in form.event_date.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.description.label }}
+        {{ form.description(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_published() }}
+        {{ form.is_published.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.media_photos') }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

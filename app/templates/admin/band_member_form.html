@@ -1,0 +1,154 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+{{ page_title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ page_title }}</h1>
+    <p>Manage band member information.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.name.label }}
+        {{ form.name() }}
+
+        {% for error in form.name.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.slug.label }}
+        {{ form.slug() }}
+
+        <small>
+            Optional profile URL identifier, for example henkka-disembowelment.
+        </small>
+
+        {% for error in form.slug.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.role.label }}
+        {{ form.role() }}
+
+        {% for error in form.role.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.image.label }}
+        {{ form.image() }}
+
+        <small>
+            Optional existing static image path.
+        </small>
+
+        {% for error in form.image.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.image_file.label }}
+
+        {{ form.image_file(
+            accept="image/jpeg,image/png,image/webp"
+        ) }}
+
+        {% for error in form.image_file.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        <small>
+            JPEG, PNG or WebP. Images are automatically resized and converted to WebP.
+        </small>
+
+        {% if member and member.image %}
+            <div class="band-member-current-image">
+                <img
+                    src="{{ url_for('static', filename=member.image) }}"
+                    alt="{{ member.name }}"
+                >
+            </div>
+
+            <small>
+                Leave empty to keep the current portrait.
+            </small>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        {{ form.bio.label }}
+        {{ form.bio(rows=5) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.other_projects.label }}
+        {{ form.other_projects(rows=4) }}
+
+        <small>
+            One project per line if possible.
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.stage_setup.label }}
+        {{ form.stage_setup(rows=6) }}
+
+        <small>
+            Optional live setup information: instruments, amplification, effects and other relevant gear.
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.studio_setup.label }}
+        {{ form.studio_setup(rows=6) }}
+
+        <small>
+            Optional studio setup information. Leave empty if the stage and studio setups are the same or not relevant.
+        </small>
+    </div>
+
+    <div class="form-field">
+        {{ form.sort_order.label }}
+        {{ form.sort_order() }}
+
+        <small>
+            Lower numbers appear first.
+        </small>
+
+        {% for error in form.sort_order.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-checkbox">
+        {{ form.is_active() }}
+        {{ form.is_active.label }}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.band_content') }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Edit Track — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>Edit Track</h1>
+    <p>{{ release.title }}</p>
+</section>
+
+<form method="post" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.track_number.label }}
+        {{ form.track_number() }}
+
+        {% for error in form.track_number.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.duration.label }}
+        {{ form.duration() }}
+
+        <small>
+            Optional. Use MM:SS format.
+        </small>
+
+        {% for error in form.duration.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for(
+                'admin.release_tracks',
+                release_id=release.id
+            ) }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

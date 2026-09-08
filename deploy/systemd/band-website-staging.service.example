@@ -1,0 +1,28 @@
+[Unit]
+Description=Band Website
+After=network.target redis-server.service
+Wants=redis-server.service
+
+[Service]
+Type=simple
+User=YOUR_USER
+Group=YOUR_USER
+
+WorkingDirectory=/var/www/band-website
+EnvironmentFile=/var/www/band-website/.env
+
+ExecStart=/var/www/band-website/.venv/bin/gunicorn \
+    --workers 2 \
+    --bind 127.0.0.1:8000 \
+    --access-logfile - \
+    --error-logfile - \
+    app:create_app()
+
+Restart=on-failure
+RestartSec=5
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

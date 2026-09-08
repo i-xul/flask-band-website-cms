@@ -1,0 +1,154 @@
+{# contact.html #}
+
+{% extends "base.html" %}
+
+{% block title %}
+Contact — Demo Band
+{% endblock %}
+
+{% block meta_description %}
+Official Demo Band booking, press, media and contact information.
+{% endblock %}
+
+{% block content %}
+
+<section class="content-section contact-page">
+
+    <h1 class="section-title">
+        Contact
+    </h1>
+
+    {% if contact_info %}
+
+        {% if contact_info.intro %}
+            <div class="contact-intro">
+                <p>
+                    {{ contact_info.intro }}
+                </p>
+            </div>
+        {% endif %}
+
+        <div class="contact-grid">
+
+            {% if contact_info.general_email %}
+                <article class="contact-card">
+                    <p class="contact-label">
+                        General
+                    </p>
+
+                    <a href="mailto:{{ contact_info.general_email }}">
+                        {{ contact_info.general_email }}
+                    </a>
+                </article>
+            {% endif %}
+
+            {% if contact_info.booking_email %}
+                <article class="contact-card">
+                    <p class="contact-label">
+                        Booking
+                    </p>
+
+                    <a href="mailto:{{ contact_info.booking_email }}">
+                        {{ contact_info.booking_email }}
+                    </a>
+                </article>
+            {% endif %}
+
+            {% if contact_info.press_email %}
+                <article class="contact-card">
+                    <p class="contact-label">
+                        Press / Media
+                    </p>
+
+                    <a href="mailto:{{ contact_info.press_email }}">
+                        {{ contact_info.press_email }}
+                    </a>
+                </article>
+            {% endif %}
+
+        </div>
+
+        {% if
+            contact_info.facebook_url
+            or contact_info.instagram_url
+            or contact_info.youtube_url
+            or contact_info.bandcamp_url
+        %}
+            <section class="contact-socials">
+                <h2>Social</h2>
+
+                <div class="contact-social-links">
+
+                    {% if contact_info.facebook_url %}
+                        <a
+                            href="{{ contact_info.facebook_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Demo Band on Facebook"
+                            title="Facebook"
+                        >
+                            <span
+                                class="social-icon social-icon-facebook"
+                                aria-hidden="true"
+                            ></span>
+                        </a>
+                    {% endif %}
+
+                    {% if contact_info.instagram_url %}
+                        <a
+                            href="{{ contact_info.instagram_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Demo Band on Instagram"
+                            title="Instagram"
+                        >
+                            <span
+                                class="social-icon social-icon-instagram"
+                                aria-hidden="true"
+                            ></span>
+                        </a>
+                    {% endif %}
+
+                    {% if contact_info.youtube_url %}
+                        <a
+                            href="{{ contact_info.youtube_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Demo Band on YouTube"
+                            title="YouTube"
+                        >
+                            <span
+                                class="social-icon social-icon-youtube"
+                                aria-hidden="true"
+                            ></span>
+                        </a>
+                    {% endif %}
+
+                    {% if contact_info.bandcamp_url %}
+                        <a
+                            href="{{ contact_info.bandcamp_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Demo Band on Bandcamp"
+                            title="Bandcamp"
+                        >
+                            <span
+                                class="social-icon social-icon-bandcamp"
+                                aria-hidden="true"
+                            ></span>
+                        </a>
+                    {% endif %}
+
+                </div>
+            </section>
+        {% endif %}
+
+    {% else %}
+        <p class="empty-state">
+            Contact information is not available.
+        </p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

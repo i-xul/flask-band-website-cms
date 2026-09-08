@@ -1,0 +1,107 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Media Videos — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <div class="section-heading-row">
+        <div>
+            <h1>Media Videos</h1>
+            <p>Manage public video content.</p>
+        </div>
+
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.media_photos') }}"
+        >
+            Photos
+        </a>
+
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.add_media_video') }}"
+        >
+            + Add video
+        </a>
+    </div>
+</section>
+
+<section class="admin-list">
+
+    {% if videos %}
+        {% for video in videos %}
+            <article class="admin-list-item">
+
+                <div class="admin-list-content">
+
+                    <div class="admin-list-meta">
+                        {% if video.is_published %}
+                            <span class="status-badge status-published">
+                                Published
+                            </span>
+                        {% else %}
+                            <span class="status-badge">
+                                Draft
+                            </span>
+                        {% endif %}
+
+                        {% if video.year %}
+                            <span class="status-badge">
+                                {{ video.year }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <h2>{{ video.title }}</h2>
+
+                    {% if video.description %}
+                        <p>{{ video.description }}</p>
+                    {% endif %}
+
+                </div>
+
+                <div class="admin-list-actions">
+                    <a
+                        href="{{ url_for(
+                            'admin.edit_media_video',
+                            video_id=video.id
+                        ) }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'admin.delete_media_video',
+                            video_id=video.id
+                        ) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="danger-link"
+                            data-confirm="Delete this video?"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>No videos added yet.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

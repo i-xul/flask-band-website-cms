@@ -1,0 +1,116 @@
+{# merch.html #}
+
+{% extends "base.html" %}
+
+{% block title %}
+Merch — Demo Band
+{% endblock %}
+
+{% block meta_description %}
+Official Demo Band merchandise and releases.
+{% endblock %}
+
+{% block content %}
+
+<section class="content-section merch-page">
+
+    <h1 class="section-title">
+        Merch
+    </h1>
+
+    <div class="merch-intro">
+        <p>
+            Official Demo Band merchandise.
+            Items are also available at live shows.
+        </p>
+
+        {% if contact_info and contact_info.general_email %}
+            <p>
+                For direct orders and availability inquiries,
+                contact
+                <a href="mailto:{{ contact_info.general_email }}">
+                    {{ contact_info.general_email }}
+                </a>.
+            </p>
+        {% endif %}
+    </div>
+
+    {% if items %}
+        <div class="merch-grid">
+
+            {% for item in items %}
+                <article class="merch-card">
+
+                    {% if item.image_path %}
+                        <div class="merch-image">
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename=item.image_path
+                                ) }}"
+                                alt="{{ item.name }}"
+                                loading="lazy"
+                            >
+                        </div>
+                    {% endif %}
+
+                    <div class="merch-info">
+
+                        <h2>
+                            {{ item.name }}
+                        </h2>
+
+                        {% if item.price_cents is not none %}
+                            <p class="merch-price">
+                                €{{ "%.2f"|format(item.price_cents / 100) }}
+                            </p>
+                        {% endif %}
+
+                        {% if item.description %}
+                            <p class="merch-description">
+                                {{ item.description }}
+                            </p>
+                        {% endif %}
+
+                        <div class="merch-meta">
+
+                            {% if item.availability %}
+                                <span>
+                                    {{ item.availability }}
+                                </span>
+                            {% endif %}
+
+                            {% if item.stock_quantity is not none %}
+                                <span>
+                                    Stock: {{ item.stock_quantity }}
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                        {% if item.external_url %}
+                            <a
+                                class="merch-buy-link"
+                                href="{{ item.external_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Buy on Bandcamp
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                </article>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p class="empty-state">
+            No merchandise available at the moment.
+        </p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

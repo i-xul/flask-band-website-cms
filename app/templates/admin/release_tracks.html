@@ -1,0 +1,118 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Tracks — {{ release.title }} — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>{{ release.title }}</h1>
+    <p>Manage tracklist.</p>
+</section>
+
+<form method="post" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.track_number.label }}
+        {{ form.track_number() }}
+
+        {% for error in form.track_number.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.title.label }}
+        {{ form.title() }}
+
+        {% for error in form.title.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.duration.label }}
+        {{ form.duration(placeholder="06:24") }}
+
+        <small>
+            Optional. Use MM:SS format.
+        </small>
+
+        {% for error in form.duration.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+    </div>
+</form>
+
+<section class="admin-list">
+
+    {% if release.tracks %}
+        {% for track in release.tracks %}
+            <article class="admin-list-item">
+
+                <div class="admin-list-content">
+                    <h2>
+                        {{ track.track_number }}.
+                        {{ track.title }}
+                    </h2>
+
+                    {% if track.duration_seconds %}
+                        <p>
+                            {{ "%02d:%02d"|format(
+                                track.duration_seconds // 60,
+                                track.duration_seconds % 60
+                            ) }}
+                        </p>
+                    {% endif %}
+                </div>
+
+                <div class="admin-list-actions">
+                    <a
+                        href="{{ url_for(
+                            'admin.edit_release_track',
+                            release_id=release.id,
+                            track_id=track.id
+                        ) }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'admin.delete_release_track',
+                            release_id=release.id,
+                            track_id=track.id
+                        ) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="danger-link"
+                            data-confirm="Delete this track?"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>No tracks added yet.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

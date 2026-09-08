@@ -1,0 +1,103 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Contact — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <h1>Contact</h1>
+    <p>Manage public contact and social information.</p>
+</section>
+
+<form method="post" class="admin-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-field">
+        {{ form.intro.label }}
+        {{ form.intro(rows=6) }}
+    </div>
+
+    <div class="form-field">
+        {{ form.general_email.label }}
+        {{ form.general_email() }}
+
+        {% for error in form.general_email.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.booking_email.label }}
+        {{ form.booking_email() }}
+
+        {% for error in form.booking_email.errors %}
+            <p class="form-error">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.press_email.label }}
+        {{ form.press_email() }}
+
+        {% for error in form.press_email.errors %}
+            <p class="form-error">
+             {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.facebook_url.label }}
+        {{ form.facebook_url() }}
+
+        {% for error in form.facebook_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.instagram_url.label }}
+        {{ form.instagram_url() }}
+
+        {% for error in form.instagram_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.youtube_url.label }}
+        {{ form.youtube_url() }}
+
+        {% for error in form.youtube_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-field">
+        {{ form.bandcamp_url.label }}
+        {{ form.bandcamp_url() }}
+
+        {% for error in form.bandcamp_url.errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        {{ form.submit(class="primary-button") }}
+
+        <a
+            class="secondary-button"
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            Cancel
+        </a>
+    </div>
+</form>
+
+{% endblock %}

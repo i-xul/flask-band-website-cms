@@ -1,0 +1,116 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Media Photos — Demo Band Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-header">
+    <div class="section-heading-row">
+        <div>
+            <h1>Media Photos</h1>
+            <p>Manage public photo gallery content.</p>
+        </div>
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.media_videos') }}"
+        >
+            Videos
+        </a>
+        <a
+            class="primary-link"
+            href="{{ url_for('admin.add_media_photo') }}"
+        >
+            + Add photo
+        </a>
+    </div>
+</section>
+
+<section class="admin-list">
+
+    {% if photos %}
+        {% for photo in photos %}
+            <article
+                class="admin-list-item{% if photo.image_path %} media-photo-admin-item{% endif %}"
+            >
+                {% if photo.image_path %}
+                    <div class="media-photo-admin-thumbnail">
+                        <img
+                            src="{{ url_for('static', filename=photo.image_path) }}"
+                            alt="{{ photo.title or photo.event_name or 'Media photo' }}"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endif %}
+
+                <div class="admin-list-content">
+                    <div class="admin-list-meta">
+                        {% if photo.is_published %}
+                            <span class="status-badge status-published">
+                                Published
+                            </span>
+                        {% else %}
+                            <span class="status-badge">
+                                Draft
+                            </span>
+                        {% endif %}
+
+                        {% if photo.photographer %}
+                            <span class="status-badge">
+                                {{ photo.photographer }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <h2>
+                        {{ photo.title or photo.event_name or "Untitled photo" }}
+                    </h2>
+
+                    {% if photo.event_name %}
+                        <p>{{ photo.event_name }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="admin-list-actions">
+                    <a
+                        href="{{ url_for(
+                            'admin.edit_media_photo',
+                            photo_id=photo.id
+                        ) }}"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'admin.delete_media_photo',
+                            photo_id=photo.id
+                        ) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="danger-link"
+                            data-confirm="Delete this photo?"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>No photos added yet.</p>
+    {% endif %}
+
+</section>
+
+{% endblock %}

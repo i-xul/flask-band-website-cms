@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Demo Band{% endblock %}
+    </title>
+
+    <meta
+        name="description"
+        content="{% block meta_description %}Demo band website powered by the Flask Band Website CMS.{% endblock %}"
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:site_name"
+        content="Demo Band"
+    >
+
+    <meta
+        property="og:title"
+        content="{{ self.title()|striptags|trim }}"
+    >
+
+    <meta
+        property="og:description"
+        content="{{ self.meta_description()|striptags|trim }}"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ url_for(
+            'static',
+            filename='images/promo/hero-1600.webp',
+            _external=True
+        ) }}"
+    >
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="{{ self.title()|striptags|trim }}"
+    >
+
+    <meta
+        name="twitter:description"
+        content="{{ self.meta_description()|striptags|trim }}"
+    >
+
+    <meta
+        name="twitter:image"
+        content="{{ url_for(
+            'static',
+            filename='images/promo/hero-1600.webp',
+            _external=True
+        ) }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/main.css') }}"
+    >
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href="{{ url_for('static', filename='images/favicon/favicon-192x192.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}"
+    >
+
+    <link
+        rel="shortcut icon"
+        href="{{ url_for('static', filename='images/favicon/favicon.ico') }}"
+    >
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+
+            <a
+                class="site-brand"
+                href="{{ url_for('public.home') }}"
+            >
+                <img
+                    src="{{ url_for('static', filename='images/branding/band-logo.png') }}"
+                    alt="Demo Band"
+                >
+            </a>
+
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="site-navigation"
+            >
+                MENU
+            </button>
+
+            <nav
+                id="site-navigation"
+                class="site-navigation"
+            >
+                <a href="{{ url_for('public.home') }}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('public.band') }}">
+                    Band
+                </a>
+
+                <a href="{{ url_for('public.music') }}">
+                    Music
+                </a>
+
+                <a href="{{ url_for('public.live') }}">
+                    Live
+                </a>
+
+                <a href="{{ url_for('public.media') }}">
+                    Media
+                </a>
+
+                <a href="{{ url_for('public.merch') }}">
+                    Merch
+                </a>
+
+                <a href="{{ url_for('public.contact') }}">
+                    Contact
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+    <div class="site-footer-inner">
+
+        <p class="site-footer-copyright">
+            © {{ current_year }} Demo Band
+        </p>
+
+        {% if footer_contact_info %}
+            <div class="site-footer-socials">
+
+                {% if footer_contact_info.facebook_url %}
+                    <a
+                        href="{{ footer_contact_info.facebook_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Demo Band on Facebook"
+                        title="Facebook"
+                    >
+                        <span
+                            class="social-icon social-icon-facebook"
+                            aria-hidden="true"
+                        ></span>
+                    </a>
+                {% endif %}
+
+                {% if footer_contact_info.instagram_url %}
+                    <a
+                        href="{{ footer_contact_info.instagram_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Demo Band on Instagram"
+                        title="Instagram"
+                    >
+                        <span
+                            class="social-icon social-icon-instagram"
+                            aria-hidden="true"
+                        ></span>
+                    </a>
+                {% endif %}
+
+                {% if footer_contact_info.youtube_url %}
+                    <a
+                        href="{{ footer_contact_info.youtube_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Demo Band on YouTube"
+                        title="YouTube"
+                    >
+                        <span
+                            class="social-icon social-icon-youtube"
+                            aria-hidden="true"
+                        ></span>
+                    </a>
+                {% endif %}
+
+                {% if footer_contact_info.bandcamp_url %}
+                    <a
+                        href="{{ footer_contact_info.bandcamp_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Demo Band on Bandcamp"
+                        title="Bandcamp"
+                    >
+                        <span
+                            class="social-icon social-icon-bandcamp"
+                            aria-hidden="true"
+                        ></span>
+                    </a>
+                {% endif %}
+
+            </div>
+        {% endif %}
+
+    </div>
+</footer>
+
+<div
+    class="photo-lightbox"
+    id="photo-lightbox"
+    hidden
+>
+    <button
+        class="photo-lightbox-close"
+        type="button"
+        aria-label="Close image"
+    >
+        ×
+    </button>
+
+    <div class="photo-lightbox-content">
+        <img
+            class="photo-lightbox-image"
+            src=""
+            alt=""
+        >
+
+        <div class="photo-lightbox-caption">
+            <strong class="photo-lightbox-title"></strong>
+            <span class="photo-lightbox-credit"></span>
+        </div>
+    </div>
+</div>
+
+    <script
+        src="{{ url_for('static', filename='js/main.js') }}"
+        defer
+    ></script>
+
+</body>
+</html>

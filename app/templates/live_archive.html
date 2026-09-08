@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+Past Shows — Demo Band
+{% endblock %}
+
+{% block meta_description %}
+Past Demo Band live shows archive.
+{% endblock %}
+
+{% block content %}
+
+<section class="content-section live-page">
+
+    <h1 class="section-title">
+        Past Shows
+    </h1>
+
+    {% if past_shows %}
+        <div class="show-list recent-show-list">
+            {% for show in past_shows %}
+                <article class="show-row show-row-past{% if show.poster_image %} show-row-with-poster{% endif %}">
+                    <div class="show-date-block">
+                        <span class="show-day">
+                            {{ show.show_date.strftime("%d") }}
+                        </span>
+
+                        <span class="show-month">
+                            {{ show.show_date.strftime("%b") }}
+                        </span>
+
+                        <span class="show-year">
+                            {{ show.show_date.strftime("%Y") }}
+                        </span>
+                    </div>
+
+                    {% if show.poster_image %}
+                        <button
+                            class="show-poster-thumbnail photo-thumbnail"
+                            type="button"
+                            data-photo-src="{{ url_for(
+                                'static',
+                                filename=show.poster_image
+                            ) }}"
+                            data-photo-title="{{ show.city }}, {{ show.country }} — {{ show.venue }}"
+                            data-photo-credit=""
+                            aria-label="Open show poster for {{ show.city }}, {{ show.country }}"
+                        >
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename=show.poster_image
+                                ) }}"
+                                alt="Show poster — {{ show.city }}, {{ show.country }} — {{ show.venue }}"
+                                loading="lazy"
+                            >
+                        </button>
+                    {% endif %}
+
+                    <div class="show-main">
+                        <h3>
+                            {{ show.city }}, {{ show.country }}
+                        </h3>
+
+                        <p class="show-venue">
+                            {{ show.venue }}
+                        </p>
+
+                        {% if show.other_bands %}
+                            <p class="show-support">
+                                With: {{ show.other_bands }}
+                            </p>
+                        {% endif %}
+
+                        {% if show.notes %}
+                            <p class="show-notes">
+                                {{ show.notes }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="show-actions">
+                        {% if show.event_url %}
+                            <a
+                                href="{{ show.event_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Event
+                            </a>
+                        {% endif %}
+
+                        {% if show.ticket_url %}
+                            <a
+                                href="{{ show.ticket_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Tickets
+                            </a>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-state">
+            No past shows yet.
+        </p>
+    {% endif %}
+
+</section>
+
+{% endblock %}
